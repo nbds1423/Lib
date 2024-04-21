@@ -3,7 +3,7 @@ import { Database } from 'bun:sqlite';
 type Tables = 'players' | 'lastGame';
 type Types = 'userNum' | 'nickname' | 'mmr' | 'rank' | 'userCode' | 'gameStatus';
 
-export default class Nina extends Database {
+class Nina extends Database {
 
   constructor(name: string = 'nina.sqlite') {
     super(name, { create: true })
@@ -49,3 +49,5 @@ export default class Nina extends Database {
   }
 
 }
+
+export default new Nina();

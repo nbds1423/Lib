@@ -3,10 +3,9 @@ import Er from "../services/Er";
 
 export default async (): Promise<void> => {
 
-  const database = new Nina();
-  database.deleteAll('lastGame');
+  Nina.deleteAll('lastGame');
 
-  const players = database.all('players', 'mmr');
+  const players = Nina.all('players', 'mmr');
   const userNum = players.filter((i: any) => i.gameStatus !== 'Offline').map((i: any) => i.userNum);
   
   for (const un of userNum) {

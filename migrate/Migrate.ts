@@ -1,15 +1,14 @@
 import Nina from "../database/Nina";
 
-class Migrate extends Nina {
+class Migrate {
 
   constructor() {
-    super()
     this.createTablePlayer();
     this.createTableGame();
   }
 
   private createTablePlayer() {
-    return this.query(`CREATE TABLE players (
+    return Nina.query(`CREATE TABLE players (
         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         userNum INTEGER UNIQUE,
         userCode VARCHAR(255) DEFAULT 'false',
@@ -23,7 +22,7 @@ class Migrate extends Nina {
   }
 
   private createTableGame() {
-    return this.query(`CREATE TABLE lastGame (
+    return Nina.query(`CREATE TABLE lastGame (
         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         ranked VARCHAR(10),
         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -32,7 +31,7 @@ class Migrate extends Nina {
   }
 
   private drop() {
-    return this.query('DROP TABLE lastGame;').run();
+    return Nina.query('DROP TABLE lastGame;').run();
   }
 
 }

@@ -5,7 +5,6 @@ import calcMinutes from "../utils/calcMinutes";
 
 export default class Er {
 
-  private static _database = new Nina();
   private static _instance: AxiosInstance = axios.create({
     baseURL: 'https://open-api.bser.io/v1',
     headers: {
@@ -22,7 +21,7 @@ export default class Er {
       if(calcMinutes.diff(data.startDtm)) return;
       if (data.serverName !== 'SaoPaulo' || data.matchingMode < 3) return;
 
-      this._database.setGames(this.calcMMR(data.mmrAfter));
+      Nina.setGames(this.calcMMR(data.mmrAfter));
     } catch (e: any) {
       console.log('[Er] | getLastGame -> %s', e);
     }

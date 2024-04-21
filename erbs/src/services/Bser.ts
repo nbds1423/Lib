@@ -3,17 +3,15 @@ import ApiError from "../../../errors/ApIError";
 import { erError } from "../types/erError";
 import Nina from "../../../database/Nina";
 
-export default class Bser {
+class Bser {
 
   private _instance: AxiosInstance;
   private readonly _version: string = '1.17.0';
   private readonly _token: string | undefined = Bun.env.TOKEN;
   private readonly _userCode: string | undefined = Bun.env.USERCODE;
   private readonly _defaultError: erError = { cod: 500, message: 'Internal Server Error' };
-  private readonly _database: Nina;
 
   constructor() {
-    this._database = new Nina();
     this._instance = axios.create({
       baseURL: 'https://bser-rest-release.bser.io/api',
       headers: {
@@ -52,7 +50,7 @@ export default class Bser {
       this.handleExceptions(response.data?.cod);
       if (!response.data?.rst?.user?.userCode) return;
 
-      this._database.updateUserCode(userNum, response.data.rst.user.userCode)
+      Nina.updateUserCode(userNum, response.data.rst.user.userCode)
     } catch (e: any) {
       console.log('[Bser] | userCode -> %s', e?.message || e);
     }
@@ -71,7 +69,7 @@ export default class Bser {
 
       players.forEach(player => {
         const presence = response.data.userPresences.find((i: any) => i.userCode === player);
-        presence ? this._database.updateStatus(presence.userCode, presence.gamestatus) : this._database.updateStatus(player, 'Offline');
+        presence ? Nina.updateStatus(presence.userCode, presence.gamestatus) : Nina.updateStatus(player, 'Offline');
         return gameStatus = presence ? presence.gamestatus : 'Offline';
       });
 
@@ -82,3 +80,5 @@ export default class Bser {
     }
   }
 }
+
+export default new Bser();

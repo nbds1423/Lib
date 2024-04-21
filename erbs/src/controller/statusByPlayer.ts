@@ -9,13 +9,12 @@ type Data = {
 
 export default async (userName: string): Promise<Data | ApiError> => {
 
-    const database = new Nina().all('players', 'mmr');
-    const bser = new Bser();
+    const database = Nina.all('players', 'mmr');
 
     const player: playerStatus = database.find((i: any) => i.nickname.toLowerCase() === userName.toLocaleLowerCase()) as playerStatus;
 
     if (!player) throw new ApiError(404, 'player.not.found');
-    const gameStatus = await bser.playerStatus([player.userCode as string]) as string;
+    const gameStatus = await Bser.playerStatus([player.userCode as string]) as string;
 
     return { gameStatus };
 }

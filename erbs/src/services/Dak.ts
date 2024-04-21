@@ -7,7 +7,7 @@ type Settings = {
   teamMode: 'SOLO' | 'DUO' | 'SQUAD' | 'COBALT';
 }
 
-export default class Dak extends Nina {
+export default class Dak {
 
   private _instance: AxiosInstance;
   private readonly _seasonKey: string = '12';
@@ -15,7 +15,7 @@ export default class Dak extends Nina {
   private readonly _teamMode: string;
 
   constructor(private readonly _settings: Settings = { serverName: 'GLOBAL', teamMode: 'SQUAD' }) {
-    super();
+
     this._serverName = this._settings.serverName as string;
     this._teamMode = this._settings.teamMode as string;
 
@@ -32,7 +32,7 @@ export default class Dak extends Nina {
 
       if (!data.length) return;
 
-      this.add('players', data);
+      Nina.add('players', data);
       return data;
     } catch (e) {
       console.log('[Dak] | players -> %s', e);

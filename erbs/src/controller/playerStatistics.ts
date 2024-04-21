@@ -7,14 +7,12 @@ interface Statistics {
     playersGameStatus: { [key: string]: number };
     playersInQueue: { [key: string]: number };
     tier: { [key: (number | string)]: any[] };
-    messages: string[];
     playersOnline: number;
     region: serverName;
 }
 
 export default async (): Promise<Statistics> => {
 
-    const database = new Nina()
     const statistics: Statistics = {
         playersOnline: 0,
         region: 'SAOPAULO',
@@ -42,15 +40,10 @@ export default async (): Promise<Statistics> => {
             Middle: [],
             High: []
         },
-        messages: [
-            'Todas as contas analisadas pertencem ao servidor SA. Para conta ser analisada ela precisa ter pelo menos uma partida ranqueada no servidor SA.',
-            'As informa��es s�o atualizada a cada 10 minutos.',
-            'playersInQueue � baseado na ultima partida de cada jogador. Porém, se a partida foi a mais de 1 hora ela não entra na lista.',
-        ],
     }
 
-    const allPlayers = database.all('players', 'mmr');
-    const lastGame = database.all('lastGame');
+    const allPlayers = Nina.all('players', 'mmr');
+    const lastGame = Nina.all('lastGame');
 
     const players: playerStatus[] = allPlayers.filter((i: any) => i.gameStatus.toLowerCase() !== 'offline') as playerStatus[];
 
